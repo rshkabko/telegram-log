@@ -1,27 +1,3 @@
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/39618526/209768908-54509816-d5d5-427e-bb01-05649ad8604a.png"/>
-</p>
-
-<h2 align="center">Laravel Telegram Log</h2>
-  <p align="center">Send logs to Telegram chat via Telegram bot. Inspired by <a href="https://github.com/grkamil/laravel-telegram-logging"> https://github.com/grkamil/laravel-telegram-logging</a></p>
-
-<h4 align="center">
-  <a href="https://developer.kiriminaja.com">Documentation</a>
-  <span> · </span>
-  <a href="mailto:tech@kiriminaja.com">Contact Us</a>
-  <span> · </span>
-  <a href="https://instagram.com/kiriminaja.it">Fun IG Account</a>
-  <span> · </span>
-  <a href="https://developer.kiriminaja.com/blog">Blog</a>
-</h4>
-
-<p align="center">
-<a href="https://packagist.org/packages/kiriminaja/laravel-telegram-log"><img src="https://img.shields.io/packagist/dt/kiriminaja/laravel-telegram-log" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/kiriminaja/laravel-telegram-log"><img src="https://img.shields.io/packagist/v/kiriminaja/laravel-telegram-log" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/kiriminaja/laravel-telegram-log"><img src="https://img.shields.io/packagist/l/kiriminaja/laravel-telegram-log" alt="License"></a>
-</p>
-
 ## Requirement
 - PHP 8.0 above
 - Laravel 8 or higher
@@ -61,6 +37,18 @@ LOG_CHANNEL=telegram
 Publish config file and views to override
 ```shell
 php artisan vendor:publish --provider "TelegramLog\TelegramServiceProvider"
+```
+
+```php
+use Illuminate\Support\Facades\Log;
+
+public function register()
+    {
+        $this->reportable(function (Throwable $e) {
+            $channel = Log::channel('telegram');
+            $channel->emergency($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
+        });
+    }
 ```
 
 ## Create bot
