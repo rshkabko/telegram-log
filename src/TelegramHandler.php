@@ -51,7 +51,7 @@ class TelegramHandler extends AbstractProcessingHandler
      * @param array $record
      * @return void
      */
-    protected function write(array $record): void
+    protected function write($record): void
     {
         if (!$this->botToken || !$this->chatId) {
             throw new \InvalidArgumentException('Bot token or chat id is not defined for Telegram logger');
@@ -124,7 +124,7 @@ class TelegramHandler extends AbstractProcessingHandler
      * @param array $record
      * @return string
      */
-    private function formatText(array $record): string
+    private function formatText($record): string
     {
         $appName = $this->getFormatEmoji($record['level_name'])." ".$this->appName;
         if ($template = config('telegram-logger.template')) {
