@@ -1,10 +1,10 @@
 {
-    "name": "kiriminaja/laravel-telegram-log",
+    "name": "flamix/telegram-log",
     "description": "Send laravel logs into Telegram Chat via bot",
     "type": "library",
     "require": {
-        "php": "^7.4|^8.0",
-        "illuminate/support": "^9.45",
+        "php": ">=7.4",
+        "illuminate/support": ">=8",
         "monolog/monolog": "^2.0"
     },
     "license": "MIT",
