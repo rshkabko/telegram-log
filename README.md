@@ -26,8 +26,7 @@ use Illuminate\Support\Facades\Log;
 public function register()
     {
         $this->reportable(function (Throwable $e) {
-            $channel = Log::channel('telegram');
-            $channel->emergency($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
+            Log::channel('telegram')->emergency($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
         });
     }
 ```
