@@ -1,10 +1,6 @@
-## Requirement
-- PHP 8.0 above
-- Laravel 8 or higher
-
 ## Install
 ```bash
-composer require kiriminaja/laravel-telegram-log
+composer require flamix/telegram-log
 ```
 
 ## Configurations
@@ -15,28 +11,13 @@ TELEGRAM_CHAT_ID=null
 TELEGRAM_LOGGER_TEMPLATE=null
 TELEGRAM_OPTIONS=[]
 ```
-Create new logging channel by modifying **config/logging.php** file
-```php
-'telegram' => [
-    'driver' => 'custom',
-    'via'    => TelegramLog\TelegramLogger::class,
-    'level'  => 'debug',
-]
-```
-Or if your default log channel is a stack, you can add it to the stack channel like this
-```php
-'stack' => [
-    'driver' => 'stack',
-    'channels' => ['single', 'telegram'],
-]
-```
 By default `LOG_CHANNEL` will be set into `stack` so you need to set default logger on env after setting up configurations above
 ```dotenv
 LOG_CHANNEL=telegram
 ```
 Publish config file and views to override
 ```shell
-php artisan vendor:publish --provider "TelegramLog\TelegramServiceProvider"
+php artisan vendor:publish --provider "Flamix\TelegramLog\TelegramServiceProvider"
 ```
 
 ```php

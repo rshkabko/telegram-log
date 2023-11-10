@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramLog;
+namespace Flamix\TelegramLog;
 
 use Monolog\Logger;
 

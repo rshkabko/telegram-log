@@ -10,21 +10,24 @@
     "license": "MIT",
     "autoload": {
         "psr-4" : {
-            "TelegramLog\\" : "src"
+            "Flamix\\TelegramLog\\": "src"
         }
     },
     "authors": [
         {
             "name": "Yanuar",
             "email": "yanuaraditia@outlook.com"
+        },
+        {
+            "name": "Roman Shkabko",
+            "email": "r.shkabko@flamix.eamil"
         }
     ],
-    "minimum-stability": "stable",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "extra": {
         "laravel": {
             "providers": [
-                "TelegramLog\\TelegramServiceProvider"
+                "Flamix\\TelegramLog\\TelegramServiceProvider"
             ]
         }
     }
