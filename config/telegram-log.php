@@ -5,6 +5,6 @@ return [
     'chat_id' => env('TELEGRAM_CHAT_ID'),
     'template' => env('TELEGRAM_LOGGER_TEMPLATE', 'laravel-telegram-log::minimal'),
 
-    // Telegram sendMessage options: https://core.telegram.org/bots/api#sendmessage
-    'options' => json_decode(env('TELEGRAM_OPTIONS',"[]"))
+    // Always an array: stdClass breaks the handler's ?array, null breaks array_merge() on every send.
+    'options' => json_decode(env('TELEGRAM_OPTIONS') ?: '[]', true) ?? [],
 ];

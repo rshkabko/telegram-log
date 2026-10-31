@@ -8,11 +8,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Logger;
 use Exception;
 
-/*
- * Class TelegramHandler
- * @package App\TelegramLog
- */
-
+/** Monolog handler that posts each record to a Telegram chat through the Bot API sendMessage. */
 class TelegramHandler extends AbstractProcessingHandler
 {
     const EMOJI = [
@@ -36,28 +32,23 @@ class TelegramHandler extends AbstractProcessingHandler
 
         parent::__construct($level, true);
 
-        // Define telegram request query
         $this->options  = $this->getConfigValue("options");
         $this->botToken = $this->getConfigValue("token");
         $this->chatId   = $this->getConfigValue("chat_id");
 
-        // Define text message body
         $this->appName = config("app.name");
         $this->appEnv  = config("app.env");
     }
 
 
-    /**
-     * @param array $record
-     * @return void
-     */
+    // Untyped on purpose: Monolog 2 passes an array, Monolog 3 a LogRecord; both read as $record['…'].
+    /** @param array|\Monolog\LogRecord $record */
     protected function write($record): void
     {
         if (!$this->botToken || !$this->chatId) {
             throw new \InvalidArgumentException('Bot token or chat id is not defined for Telegram logger');
         }
 
-        // trying to make request and send notification
         try {
             $textChunks = str_split($this->formatText($record), 4096);
 
@@ -69,10 +60,6 @@ class TelegramHandler extends AbstractProcessingHandler
         }
     }
 
-    /**
-     * @param string $text
-     * @return void
-     */
     private function sendMessage(string $text): void
     {
         $httpQuery = http_build_query(array_merge(
@@ -84,6 +71,7 @@ class TelegramHandler extends AbstractProcessingHandler
             $this->options
         ));
 
+        // Peer verification is off for hosts with an old OpenSSL; turning it on breaks them.
         $arrayContextOptions = [
             "ssl" => [
                 "verify_peer"      => false,
@@ -98,11 +86,7 @@ class TelegramHandler extends AbstractProcessingHandler
         );
     }
 
-    /**
-     * @param string $key
-     * @param string|null $defaultConfigKey
-     * @return string|array|null
-     */
+    /** @return string|array|null */
     private function getConfigValue(string $key, ?string $defaultConfigKey = null)
     {
         if (isset($this->config[$key])) {
@@ -120,10 +104,7 @@ class TelegramHandler extends AbstractProcessingHandler
         return new LineFormatter("%message% %context% %extra%\n", null, false, true);
     }
 
-    /**
-     * @param array $record
-     * @return string
-     */
+    /** @param array|\Monolog\LogRecord $record */
     private function formatText($record): string
     {
         $appName = $this->getFormatEmoji($record['level_name'])." ".$this->appName;
@@ -138,10 +119,6 @@ class TelegramHandler extends AbstractProcessingHandler
         return sprintf("<b>%s</b> (%s)\n%s", $appName, $record['level_name'], $record['formatted']);
     }
 
-    /**
-     * @param string $levelName
-     * @return string
-     */
     private function getFormatEmoji(string $levelName): string
     {
         $emoji_replace = self::EMOJI[strtolower($levelName)] ?? "❓";

@@ -4,30 +4,18 @@ namespace Flamix\TelegramLog;
 
 use Illuminate\Support\ServiceProvider;
 
-/*
- * Class TelegramLoggerServiceProvider
- * @package App\TelegramLog
- */
+/** Wires the `telegram` log channel into a Laravel app. */
 class TelegramServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/telegram-log.php', 'telegram-log');
     }
 
-    /**
-     * Perform post-registration booting of services.
-     *
-     * @return void
-     */
+    /** Adds the default `telegram` channel and the publishable config and views. */
     public function boot(): void
     {
-        // Add channel to config, if not added mannually
+        // An app's own logging.channels.telegram wins entirely: its level, and nothing merged in.
         if (empty(config('logging.channels.telegram', []))) {
             config([
                 'logging.channels.telegram' => [

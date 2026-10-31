@@ -4,18 +4,10 @@ namespace Flamix\TelegramLog;
 
 use Monolog\Logger;
 
-/*
- * Class TelegramLogger
- * @package App\TelegramLog
- */
+/** Laravel custom-driver factory (`'via'`) that builds a Monolog logger around TelegramHandler. */
 class TelegramLogger
 {
-    /**
-     * Create a custom Monolog instance.
-     *
-     * @param  array  $config
-     * @return Logger
-     */
+    /** @param array $config The logging.channels.telegram array; only `level` is used. */
     public function __invoke(array $config): Logger
     {
         return new Logger(

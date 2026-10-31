@@ -4,7 +4,6 @@
 /storage/*.key
 /vendor
 /.idea
-/.github
 .env
 .env.local
 .env.backup
@@ -19,3 +18,4 @@ composer.lock
 /kiriminaja-academy-core
 /public/academy-core
 /academy-core
+.DS_Store
